@@ -31,14 +31,14 @@ public class EtlJobController {
     }
 
     @GetMapping("{job_id}")
-    public ResponseEntity<EtlJobRequestDTO> getJob(@PathVariable Long job_id) {
-        EtlJobRequestDTO EtlJobRequestDTO = modelMapper.map(etlJobService.getJobByID(job_id), EtlJobRequestDTO.class);
-        return new ResponseEntity<>(EtlJobRequestDTO, HttpStatus.ACCEPTED);
+    public ResponseEntity<EtlJobResponseDTO> getJob(@PathVariable Long job_id) {
+        EtlJobResponseDTO etlJobResponse = etlJobService.convertModelDTO(etlJobService.getJobByID(job_id));
+        return new ResponseEntity<>(etlJobResponse, HttpStatus.ACCEPTED);
     }
 
     @PostMapping("/run/{job_id}")
-    public ResponseEntity<EtlJobRequestDTO> run(@PathVariable Long job_id) {
-        EtlJobRequestDTO EtlJobRequestDTO = modelMapper.map(etlJobService.run(job_id), EtlJobRequestDTO.class);
-        return new ResponseEntity<>(EtlJobRequestDTO, HttpStatus.CREATED);
+    public ResponseEntity<EtlJobResponseDTO> run(@PathVariable Long job_id) {
+        EtlJobResponseDTO etlJobResponse = etlJobService.convertModelDTO(etlJobService.run(job_id));
+        return new ResponseEntity<>(etlJobResponse, HttpStatus.CREATED);
     }
 }
